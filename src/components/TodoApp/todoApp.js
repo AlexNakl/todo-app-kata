@@ -1,24 +1,38 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-import Header from '../Header/header';
-import Main from '../Main/main';
+import Header from '../Header';
+import Main from '../Main';
 import './todoApp.css';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
+import { v4 as uuidv4 } from 'uuid'
 
-const TodoApp = () => {
+import {
+	editTask,
+	deleteTask,
+	taskDone,
+} from '../../castomEventHandlers';
 
-	const todoData = [
-		{ label: 'Completed task', liClass: 'completed', createdTime: formatDistanceToNow(Date.now()), id: 1},
-		{ label: 'Editing task', liClass: 'editing', createdTime: formatDistanceToNow(Date.now()), id: 2},
-		{ label: 'Active task', liClass: null, createdTime: formatDistanceToNow(Date.now()), id: 3},
-	];
+export default class TodoApp extends Component {
 	
-	return (
-		<section className='todoapp'>
-			<Header />
-			<Main todos={todoData}/>
-		</section>
-	);
-};
+	state = {
+		todoData: [
+			{ label: 'Completed task', isDone: true, createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
+			{ label: 'Editing task', isDone: false, createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
+			{ label: 'Active task', isDone: false, createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
+		]
+	};
 
-export default TodoApp;
+	render () {
+		const { todoData } = this.state;
+
+		return (
+			<section className='todoapp'>
+				<Header />
+				<Main todos={todoData}
+						onEditTask={editTask}
+						onDeleteTask={(id) => deleteTask(this, id)}
+						onTaskDone={(id) => taskDone(this, id)}/>
+			</section>
+		);
+	};
+}

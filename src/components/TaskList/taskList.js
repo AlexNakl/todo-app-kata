@@ -1,26 +1,35 @@
-import React from 'react';
-
-import Task from '../Task/task';
+import React, { Component } from 'react';
+import Task from '../Task';
 import './taskList.css';
 
-const TaskList = ({todos}) => {
-	const elems = todos.map( (item) => {
-		const {label, id, liClass, ...itemProps} = item;
-		const taskData = {label, ...itemProps};
+export default class TaskList extends Component {
+	
+	render () {
+		const { todos, onEditTask, onDeleteTask, onTaskDone } = this.props;
+
+		const elems = todos.map( (item) => {
+			const {label, id, isDone, ...itemProps} = item;
+			const taskData = {label, isDone, ...itemProps};
+			let liClass = '';
+			if (isDone){
+				liClass = 'completed';
+			}
+			return (
+				<li key={id} 
+					 className={liClass}>
+					<Task {...taskData}
+					onEditTask={() => onEditTask(id)}
+					onDeleteTask={() => onDeleteTask(id)}
+					onTaskDone={() => onTaskDone(id)}/>
+					{liClass === 'editing' ? <input type='text' className='edit' value={label} /> : null}
+				</li>
+			);
+		});
 
 		return (
-			<li key={id} className={liClass}>
-				<Task {...taskData}/>
-				{liClass === 'editing' ? <input type='text' className='edit' value={label} /> : null}
-			</li>
+			<ul className='todo-list'>
+				{ elems }
+			</ul>
 		);
-	});
-
-	return (
-		<ul className='todo-list'>
-			{ elems }
-      </ul>
-	);
-};
-
-export default TaskList;
+	};
+}
