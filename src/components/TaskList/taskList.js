@@ -5,7 +5,7 @@ import './taskList.css';
 export default class TaskList extends Component {
 	
 	render () {
-		const { todos, onEditTask, onDeleteTask, onTaskDone } = this.props;
+		const { todos, onEditTask, onDeleteTask, onToggleDone } = this.props;
 
 		const elems = todos.map( (item) => {
 			const {label, id, isDone, ...itemProps} = item;
@@ -20,7 +20,7 @@ export default class TaskList extends Component {
 					<Task {...taskData}
 					onEditTask={() => onEditTask(id)}
 					onDeleteTask={() => onDeleteTask(id)}
-					onTaskDone={() => onTaskDone(id)}/>
+					onToggleDone={() => onToggleDone(id)}/>
 					{liClass === 'editing' ? <input type='text' className='edit' value={label} /> : null}
 				</li>
 			);

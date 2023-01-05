@@ -3,35 +3,51 @@ import React, { Component } from 'react';
 import Header from '../Header';
 import Main from '../Main';
 import './todoApp.css';
-import formatDistanceToNow from 'date-fns/formatDistanceToNow';
-import { v4 as uuidv4 } from 'uuid'
 
 import {
 	editTask,
 	deleteTask,
-	taskDone,
+	onToggleDone,
+	addTask,
+	deleteDoneTask,
+	filterTasks,
+	changeFilter
 } from '../../castomEventHandlers';
+
+import {
+	createTask
+} from '../../helpers';
 
 export default class TodoApp extends Component {
 	
 	state = {
 		todoData: [
-			{ label: 'Completed task', isDone: true, createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
-			{ label: 'Editing task', isDone: false, createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
-			{ label: 'Active task', isDone: false, createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
-		]
+			createTask('Completed task'),
+			createTask('Editing task'),
+			createTask('Active task'),
+		],
+		activeFilter: 'all'
 	};
-
+	
 	render () {
-		const { todoData } = this.state;
+		const { todoData, activeFilter } = this.state;
+		const counter = todoData.filter((task) => !task.isDone).length;
+		const todoDataForRender = activeFilter === 'all' ? todoData : filterTasks(todoData, activeFilter);
 
 		return (
 			<section className='todoapp'>
-				<Header />
-				<Main todos={todoData}
+				<Header 
+					onAddTask={(event) => addTask(this, event)}
+				/>
+				<Main todos={todoDataForRender}
 						onEditTask={editTask}
 						onDeleteTask={(id) => deleteTask(this, id)}
-						onTaskDone={(id) => taskDone(this, id)}/>
+						onToggleDone={(id) => onToggleDone(this, id)}
+						onDeleteDoneTask={() => deleteDoneTask(this)}
+						counter={counter}
+						filterTasks={filterTasks}
+						activeFilter={activeFilter}
+						onChangeFilter={(name) => changeFilter(this, name)}/>
 			</section>
 		);
 	};

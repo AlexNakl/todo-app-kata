@@ -2,22 +2,22 @@ import React, { Component } from 'react';
 import './task.css';
 
 export default class Task extends Component {
-	
+	/*
 	onTaskClick = (event) => {
 		console.log(event);
 		this.setState({
 			completed: true
 		});
-	}
+	}*/
 	
 	render () {
-		const {label, isDone, createdTime, onEditTask, onDeleteTask, onTaskDone} = this.props;
+		const {label, isDone, createdTime, onEditTask, onDeleteTask, onToggleDone} = this.props;
 		
 		return (
 			<div className='view'>
 				<input className='toggle'
 						 type='checkbox' 
-						 onChange={onTaskDone}
+						 onChange={onToggleDone}
 						 checked={isDone}/>
 				<label>
 					<span className='description'>{label}</span>
