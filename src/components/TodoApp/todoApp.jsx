@@ -5,6 +5,7 @@ import Main from '../Main';
 import './todoApp.css';
 
 import {
+	onEditTask,
 	editTask,
 	deleteTask,
 	onToggleDone,
@@ -40,12 +41,12 @@ export default class TodoApp extends Component {
 					onAddTask={(event) => addTask(this, event)}
 				/>
 				<Main todos={todoDataForRender}
-						onEditTask={editTask}
+						editTask={(id, event) => editTask(this, id, event)}
+						onEditTask={(id) => onEditTask(this, id)}
 						onDeleteTask={(id) => deleteTask(this, id)}
 						onToggleDone={(id) => onToggleDone(this, id)}
 						onDeleteDoneTask={() => deleteDoneTask(this)}
 						counter={counter}
-						filterTasks={filterTasks}
 						activeFilter={activeFilter}
 						onChangeFilter={(name) => changeFilter(this, name)}/>
 			</section>

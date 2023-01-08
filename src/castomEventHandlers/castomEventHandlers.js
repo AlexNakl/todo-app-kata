@@ -1,16 +1,40 @@
 import {	createTask } from '../helpers';
 
-const editTask = (id) => { 
-	console.log("onEditTask", id); 
+const editTask = (todoApp, id, event) => { 
+	if (event.keyCode === 13){
+		const value = event.target.value;
+		todoApp.setState(({ todoData }) => {
+			const newArray = JSON.parse(JSON.stringify(todoData));
+				
+			newArray.forEach((task) => {
+				if (task.id === id && task.isEditable === true){
+					task.label = value;
+					task.isEditable = false;
+				}
+			});
+			
+			return {
+				todoData: newArray,
+			};
+		});
+	}
 }
 
-/*state = {
-	todoData: [
-		{ label: 'Completed task', liClass: 'completed', createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
-		{ label: 'Editing task', liClass: 'editing', createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
-		{ label: 'Active task', liClass: null, createdTime: formatDistanceToNow(Date.now()), id: uuidv4()},
-	]
-};*/
+const onEditTask = (todoApp, id) => { 
+	todoApp.setState(({ todoData }) => {
+		const newArray = JSON.parse(JSON.stringify(todoData));
+		
+		newArray.forEach((task) => {
+			if (task.id === id && task.isEditable !== true){
+				task.isEditable = true;
+			}
+		});
+ 
+		return {
+			todoData: newArray,
+		};
+	}); 
+}
 
 const changeFilter = (todoApp, activeFilterName) => {
 	todoApp.setState({
@@ -83,7 +107,6 @@ const onToggleDone = (todoApp, id) => {
 	});
 }
 
-export {
-	editTask, deleteTask, onToggleDone, addTask, 
+export { onEditTask,	editTask, deleteTask, onToggleDone, addTask, 
 	deleteDoneTask, filterTasks, changeFilter
 };

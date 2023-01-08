@@ -1,4 +1,5 @@
 import {
+	onEditTask,
 	editTask, 
 	deleteTask,
 	onToggleDone,
@@ -9,6 +10,6 @@ import {
 } from './castomEventHandlers';
 
 export {
-	editTask, deleteTask, onToggleDone, 
+	onEditTask,	editTask, deleteTask, onToggleDone, 
 	addTask, deleteDoneTask, filterTasks, changeFilter
 };
