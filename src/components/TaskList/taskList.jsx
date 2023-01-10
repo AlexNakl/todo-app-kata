@@ -1,64 +1,58 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+
 import Task from '../Task';
 import './taskList.css';
 
-export default class TaskList extends Component {
-	static defaultProps = {
-		todos: [], 
-		editTask: () => {}, 
-		onEditTask: () => {}, 
-		onDeleteTask: () => {}, 
-		onToggleDone: () => {},
-	};
-	
-	static propTypes = {
-		todos: PropTypes.arrayOf(PropTypes.object), 
-		editTask: PropTypes.func,
-		onEditTask: PropTypes.func, 
-		onDeleteTask: PropTypes.func, 
-		onToggleDone: PropTypes.func,
-	};
+function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone }) {
+  const elems = todos.map((item) => {
+    const { label, id, isDone, isEditable, createdTime } = item;
 
-	render () {
-		const { todos, editTask, onEditTask, onDeleteTask, onToggleDone } = this.props;
+    let liClass = '';
 
-		const elems = todos.map( (item) => {
-			const {label, id, isDone, isEditable, createdTime} = item;
-			const taskData = {label, isDone, createdTime};
+    if (isDone) {
+      liClass = 'completed';
+    }
 
-			let liClass = '';
+    if (isEditable) {
+      liClass = 'editing';
+    }
 
-			if (isDone){
-				liClass = 'completed';
-			}
+    return (
+      <li key={id} className={liClass}>
+        {isEditable ? (
+          <input type="text" className="edit" defaultValue={label} onKeyDown={(event) => editTask(id, event)} />
+        ) : (
+          <Task
+            label={label}
+            isDone={isDone}
+            createdTime={createdTime}
+            onEditTask={() => onEditTask(id)}
+            onDeleteTask={() => onDeleteTask(id)}
+            onToggleDone={() => onToggleDone(id)}
+          />
+        )}
+      </li>
+    );
+  });
 
-			if (isEditable){
-				liClass = 'editing';
-			}
-
-			return (
-				<li key={id} 
-					 className={liClass}>
-					
-					{isEditable ? <input type='text' 
-												className='edit' 
-												defaultValue={label}
-												onKeyDown={(event) => editTask(id, event)}/>
-									: 
-										<Task {...taskData}
-											onEditTask={() => onEditTask(id)}
-											onDeleteTask={() => onDeleteTask(id)}
-											onToggleDone={() => onToggleDone(id)}/>
-					}
-				</li>
-			);
-		});
-
-		return (
-			<ul className='todo-list'>
-				{ elems }
-			</ul>
-		);
-	};
+  return <ul className="todo-list">{elems}</ul>;
 }
+
+TaskList.defaultProps = {
+  todos: [],
+  editTask: () => {},
+  onEditTask: () => {},
+  onDeleteTask: () => {},
+  onToggleDone: () => {},
+};
+
+TaskList.propTypes = {
+  todos: PropTypes.arrayOf(PropTypes.objectOf(PropTypes.any)),
+  editTask: PropTypes.func,
+  onEditTask: PropTypes.func,
+  onDeleteTask: PropTypes.func,
+  onToggleDone: PropTypes.func,
+};
+
+export default TaskList;

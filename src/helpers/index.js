@@ -1,7 +1,3 @@
-import {
-	createTask
-} from './helpers';
+import createTask from './helpers';
 
-export {
-	createTask
-};
+export default createTask;

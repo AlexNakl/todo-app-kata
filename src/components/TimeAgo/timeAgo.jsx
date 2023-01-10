@@ -3,44 +3,47 @@ import PropTypes from 'prop-types';
 import formatDistanceToNow from 'date-fns/formatDistanceToNow';
 import './timeAgo.css';
 
-export default class TimeAgo extends Component {
-	static defaultProps = {
-		createdTime: Date.now()
-	};
+class TimeAgo extends Component {
+  constructor(props) {
+    super(props);
 
-	static propTypes = {
-		createdTime: PropTypes.number
-	};
+    const { createdTime } = this.props;
+    this.state = {
+      time: formatDistanceToNow(createdTime, {
+        includeSeconds: true,
+      }),
+    };
+  }
 
-	state = {
-		time: formatDistanceToNow(this.props.createdTime, {
-			includeSeconds: true
-		 })
-	};
+  componentDidMount() {
+    this.timer = setInterval(() => {
+      const { createdTime } = this.props;
 
-	componentDidMount() {
-		this.timer = setInterval(() => {
-		  const { createdTime } = this.props;
-		
-		  this.setState({
-			 time: formatDistanceToNow(createdTime, {
-				includeSeconds: true
-			 }),
-		  });
-		}, 1000);
-	 }
-  
-	componentWillUnmount() {
-		clearInterval(this.timer);
-	}
+      this.setState({
+        time: formatDistanceToNow(createdTime, {
+          includeSeconds: true,
+        }),
+      });
+    }, 1000);
+  }
 
-	render () {
-		const { time } = this.state;
-		
-		return (
-			<span className='created'>
-				created {time} ago
-			</span>
-		);
-	}
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  render() {
+    const { time } = this.state;
+
+    return <span className="created">created {time} ago</span>;
+  }
 }
+
+TimeAgo.defaultProps = {
+  createdTime: Date.now(),
+};
+
+TimeAgo.propTypes = {
+  createdTime: PropTypes.number,
+};
+
+export default TimeAgo;
