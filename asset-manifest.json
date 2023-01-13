@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/todo-app-kata/static/css/main.597eb546.css",
-    "main.js": "/todo-app-kata/static/js/main.9789ad58.js",
+    "main.css": "/todo-app-kata/static/css/main.76f663ae.css",
+    "main.js": "/todo-app-kata/static/js/main.a598ce73.js",
     "index.html": "/todo-app-kata/index.html",
-    "main.597eb546.css.map": "/todo-app-kata/static/css/main.597eb546.css.map",
-    "main.9789ad58.js.map": "/todo-app-kata/static/js/main.9789ad58.js.map"
+    "main.76f663ae.css.map": "/todo-app-kata/static/css/main.76f663ae.css.map",
+    "main.a598ce73.js.map": "/todo-app-kata/static/js/main.a598ce73.js.map"
   },
   "entrypoints": [
-    "static/css/main.597eb546.css",
-    "static/js/main.9789ad58.js"
+    "static/css/main.76f663ae.css",
+    "static/js/main.a598ce73.js"
   ]
 }
