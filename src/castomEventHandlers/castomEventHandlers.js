@@ -68,7 +68,7 @@ const deleteDoneTask = (todoApp) => {
 };
 
 const addTask = (todoApp, event) => {
-  if (event.keyCode === 13) {
+  if (event.keyCode === 13 && !/^\s*$/.test(event.target.value) && event.target.validity.valid) {
     const eve = event;
     const { value } = event.target;
     todoApp.setState(({ todoData }) => {

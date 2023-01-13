@@ -4,11 +4,11 @@ import PropTypes from 'prop-types';
 import TimeAgo from '../TimeAgo';
 import './task.css';
 
-function Task({ label, isDone, createdTime, onEditTask, onDeleteTask, onToggleDone }) {
+function Task({ id, label, isDone, createdTime, onEditTask, onDeleteTask, onToggleDone }) {
   return (
     <div className="view">
-      <input id="input-checkbox" className="toggle" type="checkbox" onChange={onToggleDone} checked={isDone} />
-      <label htmlFor="input-checkbox">
+      <input id={id} className="toggle" type="checkbox" onChange={onToggleDone} checked={isDone} />
+      <label htmlFor={id}>
         <span className="description">{label}</span>
         <TimeAgo createdTime={createdTime} />
       </label>

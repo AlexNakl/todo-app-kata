@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import Header from '../Header';
 import Main from '../Main';
-import './todoApp.css';
+import './App.css';
 import {
   onEditTask,
   editTask,
@@ -15,7 +15,7 @@ import {
 } from '../../castomEventHandlers';
 import createTask from '../../helpers';
 
-export default class TodoApp extends Component {
+export default class App extends Component {
   constructor() {
     super();
     this.state = {

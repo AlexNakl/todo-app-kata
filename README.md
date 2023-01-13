@@ -1,12 +1,14 @@
 TodoApp
 
 https://todo-app-kata-weld.vercel.app/
+
 https://todo-app-kata-git-main-alexnakl.vercel.app/
+
 https://todo-app-kata-alexnakl.vercel.app/
 
 Structure:
 
-    <TodoApp/>
+    <App/>
     	<Header/>
     		<NewTaskForm/>
     	<Main/>

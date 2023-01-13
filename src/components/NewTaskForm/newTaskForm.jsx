@@ -9,6 +9,7 @@ function NewTaskForm({ onAddTask }) {
       className="new-todo"
       placeholder="What needs to be done?"
       onKeyDown={(event) => onAddTask(event)}
+      pattern="^\S+(.*)$"
     />
   );
 }

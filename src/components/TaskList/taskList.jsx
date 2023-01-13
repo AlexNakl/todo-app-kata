@@ -1,42 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import classNames from 'classnames';
 
 import Task from '../Task';
 import './taskList.css';
 
 function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone }) {
-  const elems = todos.map((item) => {
-    const { label, id, isDone, isEditable, createdTime } = item;
+  return (
+    <ul className="todo-list">
+      {todos.map((item) => {
+        const { label, id, isDone, isEditable, createdTime } = item;
 
-    let liClass = '';
+        const liClass = classNames({
+          completed: isDone === true,
+          editing: isEditable === true,
+        });
 
-    if (isDone) {
-      liClass = 'completed';
-    }
-
-    if (isEditable) {
-      liClass = 'editing';
-    }
-
-    return (
-      <li key={id} className={liClass}>
-        {isEditable ? (
-          <input type="text" className="edit" defaultValue={label} onKeyDown={(event) => editTask(id, event)} />
-        ) : (
-          <Task
-            label={label}
-            isDone={isDone}
-            createdTime={createdTime}
-            onEditTask={() => onEditTask(id)}
-            onDeleteTask={() => onDeleteTask(id)}
-            onToggleDone={() => onToggleDone(id)}
-          />
-        )}
-      </li>
-    );
-  });
-
-  return <ul className="todo-list">{elems}</ul>;
+        return (
+          <li key={id} className={liClass}>
+            {isEditable ? (
+              <input type="text" className="edit" defaultValue={label} onKeyDown={(event) => editTask(id, event)} />
+            ) : (
+              <Task
+                id={id}
+                label={label}
+                isDone={isDone}
+                createdTime={createdTime}
+                onEditTask={() => onEditTask(id)}
+                onDeleteTask={() => onDeleteTask(id)}
+                onToggleDone={() => onToggleDone(id)}
+              />
+            )}
+          </li>
+        );
+      })}
+    </ul>
+  );
 }
 
 TaskList.defaultProps = {
