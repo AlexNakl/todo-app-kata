@@ -31,7 +31,7 @@ export default class App extends Component {
 
     return (
       <section className="todoapp">
-        <Header onAddTask={(event) => addTask(this, event)} />
+        <Header onAddTask={(value) => addTask(this, value)} />
         <Main
           todos={todoDataForRender}
           editTask={(id, event) => editTask(this, id, event)}

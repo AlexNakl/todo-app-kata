@@ -12,8 +12,8 @@ function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone }) {
         const { label, id, isDone, isEditable, createdTime } = item;
 
         const liClass = classNames({
-          completed: isDone === true,
-          editing: isEditable === true,
+          completed: isDone,
+          editing: isEditable,
         });
 
         return (

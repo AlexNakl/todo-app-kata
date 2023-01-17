@@ -23,5 +23,5 @@
 }
 
 .new-todo:invalid {
-	border: 3px dashed #F59794;
+	background: #EAD7D7;
  }

@@ -67,19 +67,14 @@ const deleteDoneTask = (todoApp) => {
   });
 };
 
-const addTask = (todoApp, event) => {
-  if (event.keyCode === 13 && !/^\s*$/.test(event.target.value) && event.target.validity.valid) {
-    const eve = event;
-    const { value } = event.target;
-    todoApp.setState(({ todoData }) => {
-      const newArray = JSON.parse(JSON.stringify(todoData));
-      newArray.push(createTask(value));
-      return {
-        todoData: newArray,
-      };
-    });
-    eve.target.value = '';
-  }
+const addTask = (todoApp, value) => {
+  todoApp.setState(({ todoData }) => {
+    const newArray = JSON.parse(JSON.stringify(todoData));
+    newArray.push(createTask(value));
+    return {
+      todoData: newArray,
+    };
+  });
 };
 
 const deleteTask = (todoApp, id) => {
