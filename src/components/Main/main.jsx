@@ -15,6 +15,7 @@ function Main({
   counter,
   activeFilter,
   onChangeFilter,
+  updateTimerData,
 }) {
   return (
     <section className="main">
@@ -24,6 +25,8 @@ function Main({
         onEditTask={onEditTask}
         onDeleteTask={onDeleteTask}
         onToggleDone={onToggleDone}
+        updateTimerData={updateTimerData}
+        activeFilter={activeFilter}
       />
       <Footer
         onDeleteDoneTask={onDeleteDoneTask}
@@ -45,6 +48,7 @@ Main.defaultProps = {
   onToggleDone: () => {},
   onDeleteDoneTask: () => {},
   onChangeFilter: () => {},
+  updateTimerData: () => {},
 };
 
 Main.propTypes = {
@@ -57,6 +61,7 @@ Main.propTypes = {
   onToggleDone: PropTypes.func,
   onDeleteDoneTask: PropTypes.func,
   onChangeFilter: PropTypes.func,
+  updateTimerData: PropTypes.func,
 };
 
 export default Main;

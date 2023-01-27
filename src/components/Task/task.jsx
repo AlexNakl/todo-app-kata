@@ -5,13 +5,24 @@ import TimeAgo from '../TimeAgo';
 import Timer from '../Timer';
 import './task.css';
 
-function Task({ id, label, minutes, seconds, isDone, createdTime, onEditTask, onDeleteTask, onToggleDone }) {
+function Task({
+  id,
+  label,
+  minutes,
+  seconds,
+  isDone,
+  createdTime,
+  onEditTask,
+  onDeleteTask,
+  onToggleDone,
+  updateTimerData,
+}) {
   return (
     <div className="view">
       <input id={id} className="toggle" type="checkbox" onChange={onToggleDone} checked={isDone} />
       <label htmlFor={id}>
         <span className="title">{label}</span>
-        <Timer minutes={minutes} seconds={seconds} />
+        <Timer isDone={isDone} minutes={minutes} seconds={seconds} updateTimerData={updateTimerData} />
         <TimeAgo createdTime={createdTime} />
       </label>
       {/* eslint-disable-next-line */}
@@ -31,6 +42,7 @@ Task.defaultProps = {
   onEditTask: () => {},
   onDeleteTask: () => {},
   onToggleDone: () => {},
+  updateTimerData: () => {},
 };
 
 Task.propTypes = {
@@ -43,6 +55,7 @@ Task.propTypes = {
   onEditTask: PropTypes.func,
   onDeleteTask: PropTypes.func,
   onToggleDone: PropTypes.func,
+  updateTimerData: PropTypes.func,
 };
 
 export default Task;

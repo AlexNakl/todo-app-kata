@@ -6,15 +6,24 @@ import './timer.css';
 export default class Timer extends Component {
   constructor(props) {
     super(props);
-
     const { minutes, seconds } = this.props;
-
     this.state = {
       isStarted: false,
       timer: null,
-      minutesLeft: minutes,
-      secondsLeft: seconds,
+      min: minutes,
+      sec: seconds,
     };
+  }
+
+  componentDidUpdate(prevProps) {
+    const { timer } = this.state;
+    const { isDone } = this.props;
+    if (isDone !== prevProps.isDone) {
+      if (isDone) {
+        clearInterval(timer);
+        this.setState({ isStarted: false });
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -24,35 +33,38 @@ export default class Timer extends Component {
   }
 
   startTimer = () => {
-    const { timer, secondsLeft, minutesLeft } = this.state;
+    const { timer } = this.state;
+    const { minutes, seconds, updateTimerData, isDone } = this.props;
 
     clearInterval(timer);
+    if (!isDone) {
+      this.setState({ isStarted: true });
+      let minutesLeft = minutes;
+      let secondsLeft = seconds;
 
-    this.setState({ isStarted: true });
-    let seconds = secondsLeft;
-    let minutes = minutesLeft;
-
-    const newTimer = setInterval(() => {
-      if (seconds !== '00') {
-        seconds -= 1;
-        if (seconds < 10) {
-          seconds = `0${seconds}`;
+      const newTimer = setInterval(() => {
+        if (secondsLeft !== '00') {
+          secondsLeft -= 1;
+          if (secondsLeft < 10) {
+            secondsLeft = `0${secondsLeft}`;
+          }
+        } else if (minutesLeft !== '00' && secondsLeft === '00') {
+          minutesLeft -= 1;
+          secondsLeft = 59;
+          if (minutesLeft < 10) {
+            minutesLeft = `0${minutesLeft}`;
+          }
+        } else if (minutesLeft === '00' && secondsLeft === '00') {
+          clearInterval(timer);
+          this.setState({ isStarted: false });
         }
-      } else if (minutes !== '00' && seconds === '00') {
-        minutes -= 1;
-        seconds = 59;
-        if (minutes < 10) {
-          minutes = `0${minutes}`;
-        }
-      } else if (minutes === '00' && seconds === '00') {
-        clearInterval(timer);
-        this.setState({ isStarted: false });
-      }
 
-      this.setState({ secondsLeft: seconds, minutesLeft: minutes });
-    }, 1000);
+        updateTimerData(String(minutesLeft), String(secondsLeft));
+        this.setState({ min: String(minutesLeft), sec: String(secondsLeft) });
+      }, 1000);
 
-    return this.setState({ timer: newTimer });
+      this.setState({ timer: newTimer });
+    }
   };
 
   pauseTimer = () => {
@@ -64,7 +76,7 @@ export default class Timer extends Component {
   };
 
   render() {
-    const { minutesLeft, secondsLeft, isStarted } = this.state;
+    const { isStarted, min, sec } = this.state;
 
     const classNamePlay = classNames('icon', 'icon-play', {
       hidden: isStarted,
@@ -79,18 +91,22 @@ export default class Timer extends Component {
         <button type="button" className={classNamePlay} onClick={this.startTimer} />
         {/* eslint-disable-next-line */}
         <button type="button" className={classNamePause} onClick={this.pauseTimer} />
-        {minutesLeft}:{secondsLeft}
+        {min}:{sec}
       </span>
     );
   }
 }
 
 Timer.defaultProps = {
+  isDone: false,
   minutes: '',
   seconds: '',
+  updateTimerData: () => {},
 };
 
 Timer.propTypes = {
+  isDone: PropTypes.bool,
   minutes: PropTypes.string,
   seconds: PropTypes.string,
+  updateTimerData: PropTypes.func,
 };

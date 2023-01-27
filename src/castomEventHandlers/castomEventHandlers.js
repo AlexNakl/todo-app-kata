@@ -106,4 +106,31 @@ const onToggleDone = (todoApp, id) => {
   });
 };
 
-export { onEditTask, editTask, deleteTask, onToggleDone, addTask, deleteDoneTask, filterTasks, changeFilter };
+const updateTimerData = (todoApp, id, minutes, seconds) => {
+  todoApp.setState(({ todoData }) => {
+    const newArray = JSON.parse(JSON.stringify(todoData));
+
+    newArray.forEach((task) => {
+      const taska = task;
+      if (task.id === id) {
+        taska.minutes = minutes;
+        taska.seconds = seconds;
+      }
+    });
+    return {
+      todoData: newArray,
+    };
+  });
+};
+
+export {
+  onEditTask,
+  editTask,
+  deleteTask,
+  onToggleDone,
+  addTask,
+  deleteDoneTask,
+  filterTasks,
+  changeFilter,
+  updateTimerData,
+};

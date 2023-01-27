@@ -10,8 +10,9 @@ import {
   onToggleDone,
   addTask,
   deleteDoneTask,
-  filterTasks,
+  // filterTasks,
   changeFilter,
+  updateTimerData,
 } from '../../castomEventHandlers';
 import createTask from '../../helpers';
 
@@ -27,13 +28,13 @@ export default class App extends Component {
   render() {
     const { todoData, activeFilter } = this.state;
     const counter = todoData.filter((task) => !task.isDone).length;
-    const todoDataForRender = activeFilter === 'all' ? todoData : filterTasks(todoData, activeFilter);
+    // const todoDataForRender = activeFilter === 'all' ? todoData : filterTasks(todoData, activeFilter);
 
     return (
       <section className="todoapp">
         <Header onAddTask={(label, minutes, seconds) => addTask(this, label, minutes, seconds)} />
         <Main
-          todos={todoDataForRender}
+          todos={todoData}
           editTask={(id, event) => editTask(this, id, event)}
           onEditTask={(id) => onEditTask(this, id)}
           onDeleteTask={(id) => deleteTask(this, id)}
@@ -42,6 +43,7 @@ export default class App extends Component {
           counter={counter}
           activeFilter={activeFilter}
           onChangeFilter={(name) => changeFilter(this, name)}
+          updateTimerData={(id, minutes, seconds) => updateTimerData(this, id, minutes, seconds)}
         />
       </section>
     );

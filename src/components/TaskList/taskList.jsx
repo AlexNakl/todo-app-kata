@@ -5,15 +5,25 @@ import classNames from 'classnames';
 import Task from '../Task';
 import './taskList.css';
 
-function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone }) {
+function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone, updateTimerData, activeFilter }) {
   return (
     <ul className="todo-list">
       {todos.map((item) => {
         const { label, id, isDone, isEditable, createdTime, minutes, seconds } = item;
 
+        let taskHidden = false;
+
+        if (activeFilter === 'all') {
+          taskHidden = false;
+        }
+        if ((activeFilter === 'active' && isDone) || (activeFilter === 'completed' && !isDone)) {
+          taskHidden = true;
+        }
+
         const liClass = classNames({
           completed: isDone,
           editing: isEditable,
+          hidden: taskHidden,
         });
 
         return (
@@ -31,6 +41,7 @@ function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone }) {
                 onEditTask={() => onEditTask(id)}
                 onDeleteTask={() => onDeleteTask(id)}
                 onToggleDone={() => onToggleDone(id)}
+                updateTimerData={(min, sec) => updateTimerData(id, min, sec)}
               />
             )}
           </li>
@@ -46,6 +57,8 @@ TaskList.defaultProps = {
   onEditTask: () => {},
   onDeleteTask: () => {},
   onToggleDone: () => {},
+  updateTimerData: () => {},
+  activeFilter: 'all',
 };
 
 TaskList.propTypes = {
@@ -54,6 +67,8 @@ TaskList.propTypes = {
   onEditTask: PropTypes.func,
   onDeleteTask: PropTypes.func,
   onToggleDone: PropTypes.func,
+  updateTimerData: PropTypes.func,
+  activeFilter: PropTypes.string,
 };
 
 export default TaskList;
