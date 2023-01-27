@@ -34,7 +34,7 @@ class TimeAgo extends Component {
   render() {
     const { time } = this.state;
 
-    return <span className="created">created {time} ago</span>;
+    return <span className="created">{time} ago</span>;
   }
 }
 

@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import './newTaskForm.css';
+import FormTimer from '../FormTimer';
 
 class NewTaskForm extends Component {
   constructor() {
     super();
     this.state = {
       label: '',
+      minutes: '',
+      seconds: '',
     };
   }
 
@@ -19,18 +23,32 @@ class NewTaskForm extends Component {
   onSubmit = (event) => {
     event.preventDefault();
     const { onAddTask } = this.props;
-    const { label } = this.state;
-    onAddTask(label);
+    const { label, minutes, seconds } = this.state;
+    onAddTask(label, minutes, seconds);
     this.setState({
       label: '',
+      minutes: '',
+      seconds: '',
+    });
+  };
+
+  onMinChange = (event) => {
+    this.setState({
+      minutes: event.target.value,
+    });
+  };
+
+  onSecChange = (event) => {
+    this.setState({
+      seconds: event.target.value,
     });
   };
 
   render() {
-    const { label } = this.state;
+    const { label, minutes, seconds } = this.state;
 
     return (
-      <form onSubmit={this.onSubmit}>
+      <form className="new-todo-form" onSubmit={this.onSubmit}>
         <input
           type="text"
           name="newTask"
@@ -43,6 +61,9 @@ class NewTaskForm extends Component {
           pattern="^\S+(.*)$"
           required
         />
+        <FormTimer onMinChange={this.onMinChange} onSecChange={this.onSecChange} minutes={minutes} seconds={seconds} />
+        {/* eslint-disable-next-line */}
+        <button className="btn--hidden"type="submit" />
       </form>
     );
   }

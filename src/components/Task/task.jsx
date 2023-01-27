@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import TimeAgo from '../TimeAgo';
+import Timer from '../Timer';
 import './task.css';
 
-function Task({ id, label, isDone, createdTime, onEditTask, onDeleteTask, onToggleDone }) {
+function Task({ id, label, minutes, seconds, isDone, createdTime, onEditTask, onDeleteTask, onToggleDone }) {
   return (
     <div className="view">
       <input id={id} className="toggle" type="checkbox" onChange={onToggleDone} checked={isDone} />
       <label htmlFor={id}>
-        <span className="description">{label}</span>
+        <span className="title">{label}</span>
+        <Timer minutes={minutes} seconds={seconds} />
         <TimeAgo createdTime={createdTime} />
       </label>
       {/* eslint-disable-next-line */}
@@ -22,6 +24,8 @@ function Task({ id, label, isDone, createdTime, onEditTask, onDeleteTask, onTogg
 
 Task.defaultProps = {
   label: 'default task',
+  minutes: '',
+  seconds: '',
   isDone: false,
   createdTime: Date.now(),
   onEditTask: () => {},
@@ -30,7 +34,10 @@ Task.defaultProps = {
 };
 
 Task.propTypes = {
+  id: PropTypes.string.isRequired,
   label: PropTypes.string,
+  minutes: PropTypes.string,
+  seconds: PropTypes.string,
   isDone: PropTypes.bool,
   createdTime: PropTypes.number,
   onEditTask: PropTypes.func,

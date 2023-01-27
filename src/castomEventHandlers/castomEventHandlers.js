@@ -67,10 +67,10 @@ const deleteDoneTask = (todoApp) => {
   });
 };
 
-const addTask = (todoApp, value) => {
+const addTask = (todoApp, label, minutes, seconds) => {
   todoApp.setState(({ todoData }) => {
     const newArray = JSON.parse(JSON.stringify(todoData));
-    newArray.push(createTask(value));
+    newArray.push(createTask(label, minutes, seconds));
     return {
       todoData: newArray,
     };

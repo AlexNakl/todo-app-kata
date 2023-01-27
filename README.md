@@ -11,9 +11,11 @@ Structure:
     <App/>
     	<Header/>
     		<NewTaskForm/>
+				<FormTimer/>>
     	<Main/>
     		<TaskList/>
     			<Task/>
+					 <Timer/>
     			<TimeAgo/>
     		<Footer/>
     			<TasksFilter/>)

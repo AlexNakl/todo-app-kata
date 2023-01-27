@@ -9,7 +9,7 @@ function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone }) {
   return (
     <ul className="todo-list">
       {todos.map((item) => {
-        const { label, id, isDone, isEditable, createdTime } = item;
+        const { label, id, isDone, isEditable, createdTime, minutes, seconds } = item;
 
         const liClass = classNames({
           completed: isDone,
@@ -24,6 +24,8 @@ function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone }) {
               <Task
                 id={id}
                 label={label}
+                minutes={minutes}
+                seconds={seconds}
                 isDone={isDone}
                 createdTime={createdTime}
                 onEditTask={() => onEditTask(id)}
