@@ -10,7 +10,6 @@ import {
   onToggleDone,
   addTask,
   deleteDoneTask,
-  // filterTasks,
   changeFilter,
   updateTimerData,
 } from '../../castomEventHandlers';
@@ -28,7 +27,6 @@ export default class App extends Component {
   render() {
     const { todoData, activeFilter } = this.state;
     const counter = todoData.filter((task) => !task.isDone).length;
-    // const todoDataForRender = activeFilter === 'all' ? todoData : filterTasks(todoData, activeFilter);
 
     return (
       <section className="todoapp">
