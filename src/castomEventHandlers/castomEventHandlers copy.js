@@ -59,4 +59,20 @@ const onToggleDone = (todoData, setTodoData, id) => {
   setTodoData(newArray);
 };
 
-export { onEditTask, editTask, deleteTask, onToggleDone, addTask, deleteDoneTask, filterTasks, changeFilter };
+const updateTimerData = (todoData, setTodoData, id, minutes, seconds) => {
+  const newArray = todoData.map((task) => (task.id === id ? { ...task, minutes, seconds } : task));
+
+  setTodoData(newArray);
+};
+
+export {
+  onEditTask,
+  editTask,
+  deleteTask,
+  onToggleDone,
+  addTask,
+  deleteDoneTask,
+  filterTasks,
+  changeFilter,
+  updateTimerData,
+};

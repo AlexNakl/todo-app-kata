@@ -5,11 +5,21 @@ import classNames from 'classnames';
 import Task from '../Task';
 import './taskList.css';
 
-function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone, updateTimerData, activeFilter }) {
+function TaskList({
+  todos,
+  editTask,
+  onEditTask,
+  onDeleteTask,
+  onToggleDone,
+  activeFilter,
+  onTimerIsStarted,
+  onTimerIsStoped,
+  updateTimerID,
+}) {
   return (
     <ul className="todo-list">
       {todos.map((item) => {
-        const { label, id, isDone, isEditable, createdTime, minutes, seconds } = item;
+        const { label, id, isDone, isEditable, createdTime, minutes, seconds, timerIsStarted, timerID } = item;
 
         let taskHidden = false;
 
@@ -30,20 +40,23 @@ function TaskList({ todos, editTask, onEditTask, onDeleteTask, onToggleDone, upd
           <li key={id} className={liClass}>
             {isEditable ? (
               <input type="text" className="edit" defaultValue={label} onKeyDown={(event) => editTask(id, event)} />
-            ) : (
-              <Task
-                id={id}
-                label={label}
-                minutes={minutes}
-                seconds={seconds}
-                isDone={isDone}
-                createdTime={createdTime}
-                onEditTask={() => onEditTask(id)}
-                onDeleteTask={() => onDeleteTask(id)}
-                onToggleDone={() => onToggleDone(id)}
-                updateTimerData={(min, sec) => updateTimerData(id, min, sec)}
-              />
-            )}
+            ) : null}
+            <Task
+              id={id}
+              label={label}
+              minutes={minutes}
+              seconds={seconds}
+              isDone={isDone}
+              createdTime={createdTime}
+              onEditTask={() => onEditTask(id)}
+              onDeleteTask={() => onDeleteTask(id)}
+              onToggleDone={() => onToggleDone(id)}
+              timerIsStarted={timerIsStarted}
+              timerId={timerID}
+              onTimerIsStarted={() => onTimerIsStarted(id)}
+              onTimerIsStoped={() => onTimerIsStoped(id)}
+              updateTimerID={(timerId) => updateTimerID(id, timerId)}
+            />
           </li>
         );
       })}
@@ -57,8 +70,10 @@ TaskList.defaultProps = {
   onEditTask: () => {},
   onDeleteTask: () => {},
   onToggleDone: () => {},
-  updateTimerData: () => {},
   activeFilter: 'all',
+  onTimerIsStarted: () => {},
+  onTimerIsStoped: () => {},
+  updateTimerID: () => {},
 };
 
 TaskList.propTypes = {
@@ -67,8 +82,10 @@ TaskList.propTypes = {
   onEditTask: PropTypes.func,
   onDeleteTask: PropTypes.func,
   onToggleDone: PropTypes.func,
-  updateTimerData: PropTypes.func,
   activeFilter: PropTypes.string,
+  onTimerIsStarted: PropTypes.func,
+  onTimerIsStoped: PropTypes.func,
+  updateTimerID: PropTypes.func,
 };
 
 export default TaskList;

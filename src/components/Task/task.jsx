@@ -15,14 +15,27 @@ function Task({
   onEditTask,
   onDeleteTask,
   onToggleDone,
-  updateTimerData,
+  timerIsStarted,
+  timerID,
+  onTimerIsStarted,
+  onTimerIsStoped,
+  updateTimerID,
 }) {
   return (
     <div className="view">
       <input id={id} className="toggle" type="checkbox" onChange={onToggleDone} checked={isDone} />
       <label htmlFor={id}>
         <span className="title">{label}</span>
-        <Timer isDone={isDone} minutes={minutes} seconds={seconds} updateTimerData={updateTimerData} />
+        <Timer
+          isDone={isDone}
+          minutes={minutes}
+          seconds={seconds}
+          timerIsStarted={timerIsStarted}
+          timerId={timerID}
+          onTimerIsStarted={onTimerIsStarted}
+          onTimerIsStoped={onTimerIsStoped}
+          updateTimerID={updateTimerID}
+        />
         <TimeAgo createdTime={createdTime} />
       </label>
       {/* eslint-disable-next-line */}
@@ -42,7 +55,11 @@ Task.defaultProps = {
   onEditTask: () => {},
   onDeleteTask: () => {},
   onToggleDone: () => {},
-  updateTimerData: () => {},
+  timerIsStarted: false,
+  timerID: null,
+  onTimerIsStarted: () => {},
+  onTimerIsStoped: () => {},
+  updateTimerID: () => {},
 };
 
 Task.propTypes = {
@@ -55,7 +72,11 @@ Task.propTypes = {
   onEditTask: PropTypes.func,
   onDeleteTask: PropTypes.func,
   onToggleDone: PropTypes.func,
-  updateTimerData: PropTypes.func,
+  timerIsStarted: PropTypes.bool,
+  timerID: PropTypes.number,
+  onTimerIsStarted: PropTypes.func,
+  onTimerIsStoped: PropTypes.func,
+  updateTimerID: PropTypes.func,
 };
 
 export default Task;
