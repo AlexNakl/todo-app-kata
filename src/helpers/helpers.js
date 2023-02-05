@@ -25,8 +25,6 @@ const createTask = (label, minutes = '59', seconds = '59') => {
     createdTime: Date.now(),
     minutes: min,
     seconds: sec,
-    timerIsStarted: false,
-    timerID: null,
   };
 };
 

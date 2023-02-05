@@ -3,27 +3,20 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import './timer.css';
 
-function Timer({
-  isDone,
-  minutes,
-  seconds,
-  timerIsStarted,
-  timerID,
-  onTimerIsStarted,
-  onTimerIsStoped,
-  updateTimerID,
-}) {
+function Timer({ isDone, minutes, seconds, updateTimerData }) {
   const [min, setMin] = useState(minutes);
   const [sec, setSec] = useState(seconds);
+  const [timer, setTimer] = useState(null);
+  const [isStarted, setIsStarted] = useState(false);
 
   useEffect(() => {
     let newTimer = null;
 
-    if (!timerIsStarted || isDone) {
-      clearInterval(timerID);
-      onTimerIsStoped();
+    if (!isStarted || isDone) {
+      clearInterval(timer);
+      setIsStarted(false);
     }
-    if (timerIsStarted && !isDone) {
+    if (isStarted && !isDone) {
       let minutesLeft = min;
       let secondsLeft = sec;
 
@@ -40,33 +33,34 @@ function Timer({
             minutesLeft = `0${minutesLeft}`;
           }
         } else if (minutesLeft === '00' && secondsLeft === '00') {
-          clearInterval(timerID);
-          onTimerIsStoped();
+          clearInterval(timer);
+          setIsStarted(false);
         }
+        updateTimerData(String(minutesLeft), String(secondsLeft));
         setMin(minutesLeft);
         setSec(secondsLeft);
       }, 1000);
 
-      updateTimerID(newTimer);
+      setTimer(newTimer);
     }
     return () => {
       clearInterval(newTimer);
     };
-  }, [timerIsStarted, isDone]);
+  }, [isStarted, isDone]);
 
   const classNamePlay = classNames('icon', 'icon-play', {
-    hidden: timerIsStarted,
+    hidden: isStarted,
   });
   const classNamePause = classNames('icon', 'icon-pause', {
-    hidden: !timerIsStarted,
+    hidden: !isStarted,
   });
 
   return (
     <span className="description">
       {/* eslint-disable-next-line */}
-        <button type="button" className={classNamePlay} onClick={onTimerIsStarted} />
+        <button type="button" className={classNamePlay} onClick={() => setIsStarted(true)} />
       {/* eslint-disable-next-line */}
-        <button type="button" className={classNamePause} onClick={onTimerIsStoped} />
+        <button type="button" className={classNamePause} onClick={() => setIsStarted(false)} />
       {min}:{sec}
     </span>
   );
@@ -76,18 +70,14 @@ Timer.defaultProps = {
   isDone: false,
   minutes: '',
   seconds: '',
-  timerIsStarted: false,
-  timerID: null,
-  updateTimerID: () => {},
+  updateTimerData: () => {},
 };
 
 Timer.propTypes = {
   isDone: PropTypes.bool,
   minutes: PropTypes.string,
   seconds: PropTypes.string,
-  timerIsStarted: PropTypes.bool,
-  timerID: PropTypes.number,
-  updateTimerID: PropTypes.func,
+  updateTimerData: PropTypes.func,
 };
 
 export default Timer;

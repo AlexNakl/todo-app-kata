@@ -15,9 +15,7 @@ function Main({
   counter,
   activeFilter,
   onChangeFilter,
-  onTimerIsStarted,
-  onTimerIsStoped,
-  updateTimerID,
+  updateTimerData,
 }) {
   return (
     <section className="main">
@@ -27,10 +25,8 @@ function Main({
         onEditTask={onEditTask}
         onDeleteTask={onDeleteTask}
         onToggleDone={onToggleDone}
+        updateTimerData={updateTimerData}
         activeFilter={activeFilter}
-        onTimerIsStarted={onTimerIsStarted}
-        onTimerIsStoped={onTimerIsStoped}
-        updateTimerID={updateTimerID}
       />
       <Footer
         onDeleteDoneTask={onDeleteDoneTask}
@@ -52,9 +48,7 @@ Main.defaultProps = {
   onToggleDone: () => {},
   onDeleteDoneTask: () => {},
   onChangeFilter: () => {},
-  onTimerIsStarted: () => {},
-  onTimerIsStoped: () => {},
-  updateTimerID: () => {},
+  updateTimerData: () => {},
 };
 
 Main.propTypes = {
@@ -67,9 +61,7 @@ Main.propTypes = {
   onToggleDone: PropTypes.func,
   onDeleteDoneTask: PropTypes.func,
   onChangeFilter: PropTypes.func,
-  onTimerIsStarted: PropTypes.func,
-  onTimerIsStoped: PropTypes.func,
-  updateTimerID: PropTypes.func,
+  updateTimerData: PropTypes.func,
 };
 
 export default Main;

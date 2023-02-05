@@ -1,27 +1,21 @@
 import createTask from '../helpers';
 
-const editTask = (todoData, setTodoData, id, event) => {
+const editTask = (setTodoData, id, event) => {
   if (event.keyCode === 13) {
     const { value } = event.target;
 
-    const newArray = todoData.map((task) =>
-      task.id === id && task.isEditable === true ? { ...task, label: value, isEditable: false } : task
+    setTodoData((todoData) =>
+      todoData.map((task) =>
+        task.id === id && task.isEditable === true ? { ...task, label: value, isEditable: false } : task
+      )
     );
-
-    setTodoData(newArray);
   }
 };
 
-const onEditTask = (todoData, setTodoData, id) => {
-  const newArray = todoData.map((task) =>
-    task.id === id && task.isEditable !== true ? { ...task, isEditable: true } : task
+const onEditTask = (setTodoData, id) => {
+  setTodoData((todoData) =>
+    todoData.map((task) => (task.id === id && task.isEditable !== true ? { ...task, isEditable: true } : task))
   );
-
-  setTodoData(newArray);
-};
-
-const changeFilter = (setActiveFilter, activeFilterName) => {
-  setActiveFilter(activeFilterName);
 };
 
 const filterTasks = (items, filter) => {
@@ -37,26 +31,24 @@ const filterTasks = (items, filter) => {
   }
 };
 
-const deleteDoneTask = (todoData, setTodoData) => {
-  const newArray = todoData.filter((task) => !task.isDone);
-
-  setTodoData(newArray);
+const deleteDoneTask = (setTodoData) => {
+  setTodoData((todoData) => todoData.filter((task) => !task.isDone));
 };
 
-const addTask = (todoData, setTodoData, label, minutes, seconds) => {
-  setTodoData([...todoData, createTask(label, minutes, seconds)]);
+const addTask = (setTodoData, label, minutes, seconds) => {
+  setTodoData((todoData) => [...todoData, createTask(label, minutes, seconds)]);
 };
 
-const deleteTask = (todoData, setTodoData, id) => {
-  const newArray = todoData.filter((task) => task.id !== id);
-
-  setTodoData(newArray);
+const deleteTask = (setTodoData, id) => {
+  setTodoData((todoData) => todoData.filter((task) => task.id !== id));
 };
 
-const onToggleDone = (todoData, setTodoData, id) => {
-  const newArray = todoData.map((task) => (task.id === id ? { ...task, isDone: !task.isDone } : task));
-
-  setTodoData(newArray);
+const onToggleDone = (setTodoData, id) => {
+  setTodoData((todoData) => todoData.map((task) => (task.id === id ? { ...task, isDone: !task.isDone } : task)));
 };
 
-export { onEditTask, editTask, deleteTask, onToggleDone, addTask, deleteDoneTask, filterTasks, changeFilter };
+const updateTimerData = (setTodoData, id, minutes, seconds) => {
+  setTodoData((todoData) => todoData.map((task) => (task.id === id ? { ...task, minutes, seconds } : task)));
+};
+
+export { onEditTask, editTask, deleteTask, onToggleDone, addTask, deleteDoneTask, filterTasks, updateTimerData };
